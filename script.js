@@ -1,17 +1,23 @@
 //  Example Contact List
-var contactList = [  
+const contactList = [  
 	{ 
 		name: "Raquel Ervin", 
 		phone: "+1 555 555-5555", 
 		address: "123 front st, Unit #1, Dakota City",    
-		email: "rocket@gmail.com",  
+		email: "rocket@gmail.com"
 	},   
 	{    
 		name: "Contact Name",    
 		phone: "Contact Phone",    
 		address: "Contact Address",    
-		email: "Contact Email",  
-	}
+		email: "Contact Email"  
+	},
+    {	
+        name: "Contact Name",    
+        phone: "Contact Phone",    
+        address: "Contact Address",    
+        email: "Contact Email"
+    }
 ];
 //-----------------------------------
 //  Helper Functions
@@ -84,53 +90,21 @@ function insertDOMView(contact){
 
 function cleanUpIndex(){
     const clean = document.querySelectorAll('div.contact')
-    for (i=0; i<clean.length; i++){
+    for (let i=0; i<clean.length; i++){
         clean[i].remove()
     }
-}
-
-function createSingleIndex(contact){
-    const section = document.querySelector('.main')
-    section.insertAdjacentHTML('beforeend', insertDOMIndex(contact.name))
+    var links = document.querySelectorAll('a[href="page3.html"]');
+    for (let i=0; i<links.length; i++){
+        links[i].remove()
+    }
 }
 
 function renderIndex(contactList){
-    console.log('Clicked')
     const section = document.querySelector('.main')
-    for (var obj of contactList){
+    for (let obj of contactList){
         section.insertAdjacentHTML('beforeend', insertDOMIndex(obj.name))
     }
 }
-
-var home = document.querySelector('.nav-home');
-home.addEventListener('click',function(evt){
-    evt.preventDefault()
-    evt.stopImmediatePropagation()
-    if (document.querySelector('div.contact') != null){
-       cleanUpIndex() 
-    }
-    if (document.querySelector('.contactedit') !=null){
-        cleanUpCreate()
-    }
-    renderIndex(contactList)
-});
-
-home.onclick = addEventListener('click',function(evt){
-
-})
-
-
-var new_cont = document.querySelector('.nav');
-new_cont.addEventListener('click',function(evt){
-    evt.preventDefault()
-    evt.stopImmediatePropagation()
-    if (document.querySelector('div.contact') !=null)
-        cleanUpIndex()
-    if (document.querySelector('.contactedit') !=null){
-        cleanUpCreate()
-    }
-    renderCreate()
-})
 
 //-----------------------------------
 //  View Page
@@ -155,4 +129,66 @@ function cleanUpCreate(){
 function renderCreate(){
     const section = document.querySelector('.main')
     section.insertAdjacentHTML('afterbegin',insertDOMCreate())
+}
+
+//-----------------------------------
+//  Event Handlers
+
+var home = document.querySelector('.nav-home');
+home.addEventListener('click',function(evt){
+    evt.preventDefault()
+    evt.stopImmediatePropagation()
+    if (document.querySelector('div.contact') != null){
+       cleanUpIndex() 
+    }
+    if (document.querySelector('.contactedit') !=null){
+        cleanUpCreate()
+    }
+    if (document.querySelector('.contactinfo') !=null){
+        cleanUpView()
+    }
+    renderIndex(contactList)
+});
+
+
+var new_cont = document.querySelector('.nav');
+new_cont.addEventListener('click',function(evt){
+    evt.preventDefault()
+    evt.stopImmediatePropagation()
+    if (document.querySelector('div.contact') !=null)
+        cleanUpIndex()
+    if (document.querySelector('.contactedit') !=null){
+        cleanUpCreate()
+    }
+    if (document.querySelector('.contactinfo') !=null){
+        cleanUpView()
+    }
+    renderCreate()
+})
+
+const singleDom = document.querySelector('.main')
+singleDom.addEventListener('click', function(evt){
+    evt.preventDefault()
+    evt.stopImmediatePropagation()
+    createSingleIndex(evt)
+}
+)
+
+function createSingleIndex(evt){
+    let search = evt.target.innerHTML
+    console.log(search)
+    let cName = getContactName(search)
+    console.log(cName)
+    if (cName !=null){
+        cleanUpIndex()
+        renderView(cName)
+    }}
+
+function getContactName(search){
+    for(let names in contactList){
+        if(search == contactList[names].name){
+            return contactList[names]
+        }
+    }
+    alert('Contact not found')
 }
