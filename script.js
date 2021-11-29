@@ -130,7 +130,7 @@ function renderView(contact){
     editBtn.addEventListener('click',function(evt){
         evt.preventDefault()
         evt.stopImmediatePropagation()
-        console.log('Did nothing')
+        alert('Nothing')
     })
     const closeBtn = document.querySelector('.close')
     closeBtn.addEventListener('click',function(evt){
@@ -149,12 +149,26 @@ function cleanUpCreate(){
 function renderCreate(){
     const section = document.querySelector('.main')
     section.insertAdjacentHTML('afterbegin',insertDOMCreate())
-    const cancelBtn = document.querySelector('.cancel')
+    let cancelBtn = document.querySelector('.cancel')
     cancelBtn.addEventListener('click', function(evt){
         evt.preventDefault()
+        cleanUpCreate()
         renderIndex(contactList)
-
     })
+    let saveBtn = document.querySelector('.save')
+    saveBtn.addEventListener('click', function(evt){
+        evt.preventDefault()
+        info = []
+        let getInfo = document.querySelectorAll('.inputcontainer')
+        for(let i =0; i <getInfo.length; i++){
+            info.push(getInfo[i].firstElementChild.value)
+        }
+        addInfo(info)
+    })
+}
+
+function addInfo(info){
+    contactList.push({name:info[0],phone:info[1],address:info[2],email:info[3]})
 }
 
 //-----------------------------------
@@ -194,9 +208,7 @@ new_cont.addEventListener('click',function(evt){
 
 function createSingleIndex(evt){
     let search = evt.target.textContent
-    console.log(search)
     let cName = getContactName(search)
-    console.log(cName)
     if (cName !=null){
         cleanUpIndex()
         renderView(cName)
