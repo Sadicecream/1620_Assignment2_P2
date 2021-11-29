@@ -13,10 +13,10 @@ const contactList = [ 
 		email: "Contact Email"  
 	},
     {	
-        name: "Contact Name",    
-        phone: "Contact Phone",    
-        address: "Contact Address",    
-        email: "Contact Email"
+        name: "Jeremy McNinch",    
+        phone: "604 718 1043",    
+        address: "8631 Granville St, Vancouver",    
+        email: "email@email.com"
     }
 ];
 //-----------------------------------
@@ -104,7 +104,16 @@ function renderIndex(contactList){
     for (let obj of contactList){
         section.insertAdjacentHTML('beforeend', insertDOMIndex(obj.name))
     }
+    const singleDom = document.querySelectorAll('a[href="page3.html"]')
+    for (let doms of singleDom){
+        doms.addEventListener('click', function(evt){
+            evt.preventDefault()
+            evt.stopImmediatePropagation()
+            createSingleIndex(evt)
+        })
+    }
 }
+
 
 //-----------------------------------
 //  View Page
@@ -166,16 +175,8 @@ new_cont.addEventListener('click',function(evt){
     renderCreate()
 })
 
-const singleDom = document.querySelector('.main')
-singleDom.addEventListener('click', function(evt){
-    evt.preventDefault()
-    evt.stopImmediatePropagation()
-    createSingleIndex(evt)
-}
-)
-
 function createSingleIndex(evt){
-    let search = evt.target.innerHTML
+    let search = evt.target.textContent
     console.log(search)
     let cName = getContactName(search)
     console.log(cName)
@@ -190,5 +191,5 @@ function getContactName(search){
             return contactList[names]
         }
     }
-    alert('Contact not found')
+    alert("Contact not found")
 }
