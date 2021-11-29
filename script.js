@@ -149,6 +149,12 @@ function cleanUpCreate(){
 function renderCreate(){
     const section = document.querySelector('.main')
     section.insertAdjacentHTML('afterbegin',insertDOMCreate())
+    const cancelBtn = document.querySelector('.cancel')
+    cancelBtn.addEventListener('click', function(evt){
+        evt.preventDefault()
+        renderIndex(contactList)
+
+    })
 }
 
 //-----------------------------------
