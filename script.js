@@ -126,6 +126,17 @@ function cleanUpView(){
 function renderView(contact){
     const section = document.querySelector('.main')
     section.insertAdjacentHTML("afterbegin",insertDOMView(contact))
+    const editBtn = document.querySelector('.edit')
+    editBtn.addEventListener('click',function(evt){
+        evt.preventDefault()
+        evt.stopImmediatePropagation()
+        console.log('Did nothing')
+    })
+    const closeBtn = document.querySelector('.close')
+    closeBtn.addEventListener('click',function(evt){
+        cleanUpView()
+        renderIndex(contactList)
+    })
 }
 //-----------------------------------
 //  Create Page
