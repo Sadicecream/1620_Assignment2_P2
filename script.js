@@ -85,6 +85,28 @@ function insertDOMView(contact){
         </div>
     `
 }
+
+function addInfo(info){
+    contactList.push({name:info[0],phone:info[1],address:info[2],email:info[3]})
+}
+
+function createSingleIndex(evt){
+    let search = evt.target.textContent
+    let cName = getContactName(search)
+    if (cName !=null){
+        cleanUpIndex()
+        renderView(cName)
+    }}
+
+function getContactName(search){
+    for(let names in contactList){
+        if(search == contactList[names].name){
+            return contactList[names]
+        }
+    }
+    alert("Contact not found")
+}
+
 //-----------------------------------
 //  Index Page
 
@@ -164,11 +186,9 @@ function renderCreate(){
             info.push(getInfo[i].firstElementChild.value)
         }
         addInfo(info)
+        cleanUpCreate()
+        renderIndex(contactList)
     })
-}
-
-function addInfo(info){
-    contactList.push({name:info[0],phone:info[1],address:info[2],email:info[3]})
 }
 
 //-----------------------------------
@@ -206,19 +226,6 @@ new_cont.addEventListener('click',function(evt){
     renderCreate()
 })
 
-function createSingleIndex(evt){
-    let search = evt.target.textContent
-    let cName = getContactName(search)
-    if (cName !=null){
-        cleanUpIndex()
-        renderView(cName)
-    }}
-
-function getContactName(search){
-    for(let names in contactList){
-        if(search == contactList[names].name){
-            return contactList[names]
-        }
-    }
-    alert("Contact not found")
-}
+document.addEventListener("DOMContentLoaded", evt => {
+    renderIndex(contactList)
+})
