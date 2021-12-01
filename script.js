@@ -6,12 +6,6 @@ const contactList = [ 
 		address: "123 front st, Unit #1, Dakota City",    
 		email: "rocket@gmail.com"
 	},   
-	{    
-		name: "Contact Name",    
-		phone: "Contact Phone",    
-		address: "Contact Address",    
-		email: "Contact Email"  
-	},
     {	
         name: "Jeremy McNinch",    
         phone: "604 718 1043",    
@@ -19,6 +13,8 @@ const contactList = [ 
         email: "email@email.com"
     }
 ];
+
+let captureList = []
 //-----------------------------------
 //  Helper Functions
 
@@ -29,7 +25,7 @@ function insertDOMIndex(contact) {
     `
 }
 
-function insertDOMCreate(contact = contactList[1]){
+function insertDOMCreate(){
     return `
     <div class="contactedit">
     <div class="contactimg">
@@ -38,22 +34,22 @@ function insertDOMCreate(contact = contactList[1]){
     <div class="form">
         <form>
             <div class="inputcontainer">
-                <input type="text" id="contactname" name="contactname" placeholder='${contact.name}'>
+                <input type="text" id="contactname" name="contactname" placeholder='Contact Name'>
                 <button class="extrafield" id="extranamefield" name="extranamefield">+</button>
             </div>
 
             <div class="inputcontainer">
-                <input type="tel" id="contactphone" name="contactphone" placeholder="${contact.phone}">
+                <input type="tel" id="contactphone" name="contactphone" placeholder="Contact Phone">
                 <button class="extrafield" id="extraphonefield" name="extraphonefield">+</button>
             </div>
 
             <div class="inputcontainer">
-                <input type="text" id="contactaddress" name="contactaddress" placeholder="${contact.address}">
+                <input type="text" id="contactaddress" name="contactaddress" placeholder="Contact Address">
                 <button class="extrafield" id="extraaddressfield" name="extraaddressfield">+</button>
             </div>
             
             <div class="inputcontainer">
-                <input type="email" id="contactemail" name="contactemail" placeholder="${contact.email}">
+                <input type="email" id="contactemail" name="contactemail" placeholder="Contact Email">
                 <button class="extrafield" id="extraemailfield" name="extraemailfield">+</button>
             </div>
 
@@ -84,10 +80,6 @@ function insertDOMView(contact){
             </div>
         </div>
     `
-}
-
-function addInfo(info){
-    contactList.push({name:info[0],phone:info[1],address:info[2],email:info[3]})
 }
 
 function createSingleIndex(evt){
@@ -152,7 +144,16 @@ function renderView(contact){
     editBtn.addEventListener('click',function(evt){
         evt.preventDefault()
         evt.stopImmediatePropagation()
-        alert('Nothing')
+        let getInfo = document.querySelector(".contactname").firstChild.textContent.trim()
+        let cName = getContactName(getInfo)
+        let edit = Object.values(cName)
+        captureList = edit
+        cleanUpView()
+        renderCreate()
+        let fields = document.querySelectorAll('.inputcontainer')
+        for(let i=0; i<fields.length; i++){
+            fields[i].firstElementChild.value = edit[i]
+        }
     })
     const closeBtn = document.querySelector('.close')
     closeBtn.addEventListener('click',function(evt){
@@ -180,12 +181,21 @@ function renderCreate(){
     let saveBtn = document.querySelector('.save')
     saveBtn.addEventListener('click', function(evt){
         evt.preventDefault()
-        info = []
+        let info = []
+        let exists = 0
         let getInfo = document.querySelectorAll('.inputcontainer')
         for(let i =0; i <getInfo.length; i++){
             info.push(getInfo[i].firstElementChild.value)
         }
-        addInfo(info)
+        for(let names in contactList){
+            if(captureList[0] == contactList[names].name){
+                contactList.splice(names,1,{name:info[0],phone:info[1],address:info[2],email:info[3]})
+                exists++
+            }
+        }
+        if(exists == 0){
+            contactList.push({name:info[0],phone:info[1],address:info[2],email:info[3]})
+            }
         cleanUpCreate()
         renderIndex(contactList)
     })
