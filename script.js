@@ -14,7 +14,8 @@ const contactList = [ 
     }
 ];
 
-let captureList = []
+let captureList = []/*Sorry for the second global variable*/
+
 //-----------------------------------
 //  Helper Functions
 
@@ -177,6 +178,7 @@ function renderCreate(){
         evt.preventDefault()
         cleanUpCreate()
         renderIndex(contactList)
+        captureList = []
     })
     let saveBtn = document.querySelector('.save')
     saveBtn.addEventListener('click', function(evt){
@@ -193,6 +195,7 @@ function renderCreate(){
                 exists++
             }
         }
+        captureList = []
         if(exists == 0){
             contactList.push({name:info[0],phone:info[1],address:info[2],email:info[3]})
             }
